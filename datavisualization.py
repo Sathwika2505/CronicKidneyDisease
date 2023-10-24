@@ -1,18 +1,21 @@
-import pandas as pd
+from matplotlib import pyplot as plt
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 from feature_engineering import feature_engineering
+
 
 def data_visualization():
     dataset = feature_engineering()
     categ = ['Target']
     numer = ['Age(yrs)', 'Blood Pressure', 'Specific Grafity', 'Albumin','Blood Urea', 'Serum Creatinine', 'Sodium', 
-             'Whitebloodcellscount', 'Redbloodcellscount', 'Hypertension', 
-             'DiabetesMellitus']
-    # column_name = 'YourColumnNameHere'
-    plt.figure(figsize=(10,8))
-    sns.heatmap(dataset.drop('Target',axis=1).corr(), annot=True, cmap="coolwarm", fmt=".2f")
+             'Whitebloodcellscount', 'Redbloodcellscount']
+    
+    # Exclude non-numeric columns from the correlation matrix
+    numeric_dataset = dataset[numer]
+    
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(numeric_dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
     plt.show()
     
     for x in numer:
@@ -24,18 +27,20 @@ def data_visualization():
         min_val = q25 - (1.5 * intr_qr)
         dataset.loc[dataset[x] < min_val, x] = np.nan
         dataset.loc[dataset[x] > max_val, x] = np.nan
+    
     # Box plots
     for num in numer:
         plt.figure(figsize=(5, 5))
         sns.boxplot(data=dataset, x=num)
         plt.xlabel(num)
     plt.show()
+    
     for numeric in numer:
-        plt.subplots(1,1, figsize=(5,5))
-        sns.distplot(x = dataset[numeric])
+        plt.subplots(1, 1, figsize=(5, 5))
+        sns.distplot(x=dataset[numeric])
         plt.xlabel(numeric)
         plt.title(numeric)
     plt.show()
+    
     return dataset
-
 data_visualization()
