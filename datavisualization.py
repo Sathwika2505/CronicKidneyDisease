@@ -8,11 +8,11 @@ def data_visualization():
     dataset = feature_engineering()
     categ = ['Target']
     numer = ['Age(yrs)', 'Blood Pressure', 'Specific Grafity', 'Albumin','Blood Urea', 'Serum Creatinine', 'Sodium', 
-             'Potassium', 'Haemoglobin','Whitebloodcellscount', 'Redbloodcellscount', 'Hypertension', 
+             'Whitebloodcellscount', 'Redbloodcellscount', 'Hypertension', 
              'DiabetesMellitus']
     # column_name = 'YourColumnNameHere'
     plt.figure(figsize=(10,8))
-    sns.heatmap(dataset.drop('Target').corr(), annot=True, cmap="coolwarm", fmt=".2f")
+    sns.heatmap(dataset.drop('Target',axis=1).corr(), annot=True, cmap="coolwarm", fmt=".2f")
     plt.show()
     
     for x in numer:
