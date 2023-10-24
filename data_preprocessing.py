@@ -1,3 +1,4 @@
+import numpy as np
 from data_loading import loading_data
 
 def data_preprocess():
@@ -8,6 +9,8 @@ def data_preprocess():
     data = data.drop(['Pus cells cumps', 'Bacteria','RedBloodCells','Blood Glucose Random','Packed cell volume','Coronary Artery Disease','Pedal Edema'], axis = 1)
     categorical_data = ['Hypertension','DiabetesMellitus','Appetite','Anemia','Target','Pus cells']
     numerical_data = ['Age(yrs)','Blood Pressure','Whitebloodcellscount','Redbloodcellscount', 'Specific Grafity', 'Albumin', 'Sugar','Blood Urea', 'Serum Creatinine', 'Sodium', 'Potassium', 'Haemoglobin']
+    for col in categorical_data:
+        data[col] = data[col].replace('\t?', np.nan)
     for cdata in categorical_data:
         data[cdata] = data[cdata].fillna('unknown')
         # print(f"for {data[cdata]} the unique values are : ", data[cdata].unique())

@@ -5,16 +5,15 @@ import seaborn as sns
 from feature_engineering import feature_engineering
 
 def data_visualization():
-
     dataset = feature_engineering()
-    plt.figure(figsize=(10,8))
-    sns.heatmap(dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
-    plt.show()
-
     categ = ['Target']
     numer = ['Age(yrs)', 'Blood Pressure', 'Specific Grafity', 'Albumin','Blood Urea', 'Serum Creatinine', 'Sodium', 
              'Potassium', 'Haemoglobin','Whitebloodcellscount', 'Redbloodcellscount', 'Hypertension', 
              'DiabetesMellitus']
+    # column_name = 'YourColumnNameHere'
+    plt.figure(figsize=(10,8))
+    sns.heatmap(dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
+    plt.show()
     
     for x in numer:
         # Ensure the column is numeric and replace non-numeric values with NaN
