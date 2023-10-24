@@ -12,7 +12,7 @@ def data_visualization():
              'DiabetesMellitus']
     # column_name = 'YourColumnNameHere'
     plt.figure(figsize=(10,8))
-    sns.heatmap(dataset.drop('Target',axis=1).corr(), annot=True, cmap="coolwarm", fmt=".2f")
+    sns.heatmap(dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
     plt.show()
     
     for x in numer:
