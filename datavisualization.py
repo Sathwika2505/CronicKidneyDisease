@@ -14,9 +14,9 @@ def data_visualization():
     # Exclude non-numeric columns from the correlation matrix
     numeric_dataset = dataset[numer]
     
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(numeric_dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
-    plt.show()
+    # plt.figure(figsize=(10, 8))
+    # sns.heatmap(numeric_dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
+    # plt.show()
     
     for x in numer:
         # Ensure the column is numeric and replace non-numeric values with NaN
