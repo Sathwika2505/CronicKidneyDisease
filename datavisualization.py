@@ -43,4 +43,5 @@ def data_visualization():
     plt.show()
     
     return dataset
+
 data_visualization()
