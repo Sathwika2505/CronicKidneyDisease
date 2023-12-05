@@ -9,7 +9,11 @@ def feature_engineering():
         data[column] = labelencoder.fit_transform(data[column])
     print(data)
 
-    data.to_csv('kidney_disease_artifact.csv', index=False)
+    df=data.drop(["Redbloodcellscount","Whitebloodcellscount"],axis=1)
+
+    df.to_csv('kidney_disease_artifact.csv', index=False)
+
+    print(df.dtypes)
 
     return data
 feature_engineering()
