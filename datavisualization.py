@@ -1,47 +1,50 @@
-from matplotlib import pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
 from feature_engineering import feature_engineering
-
-
+import pandas as pd
+import plotly.express as px
+from IPython.display import Image
+import warnings
+warnings.filterwarnings("ignore")
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.figure_factory as ff
+import plotly.io as pio
+import io
+from PIL import Image
+a =[]
 def data_visualization():
-    dataset = feature_engineering()
-    categ = ['Target']
-    numer = ['Age(yrs)', 'Blood Pressure', 'Specific Grafity', 'Albumin','Blood Urea', 'Serum Creatinine', 'Sodium', 
-             'Whitebloodcellscount', 'Redbloodcellscount']
+    data = feature_engineering()
+    # data.drop(['OTI_A','OTI_T','WTI'], axis=1,inplace=True)
+    col=list(data.columns)
+    col.remove("Target")
+    print(col)
+    for i in col:
+        fig = px.box(data, y=i)
+        fig.update_layout(template='plotly_dark')
+        #fig.update_layout(plot_bgcolor = "plotly_dark")
+        fig.update_xaxes(showgrid=False,zeroline=False)
+        fig.update_yaxes(showgrid=False,zeroline=False)
+        # fig.show()
+        fig.write_image(f"{i}.jpg")
+        # a.append(fig)
+    # for i in col:
+    #     fig = ff.create_distplot([data[i].values],group_labels=[i])
+    #     fig.update_layout(template='plotly_dark')
+    #     #fig.update_layout(plot_bgcolor = "plotly_dark")
+    #     fig.update_xaxes(showgrid=False,zeroline=False)
+    #     fig.update_yaxes(showgrid=False,zeroline=False)
+        # fig.show()
+        # a.append(fig)
+    df=data.drop("Target",axis=1)
+    y=df.corr().columns.tolist()
+    z=df.corr().values.tolist()
+    z_text = np.around(z, decimals=4) # Only show rounded value (full value on hover)
+    fig = ff.create_annotated_heatmap(z,x=y,y=y,annotation_text=z_text,colorscale=px.colors.sequential.Cividis_r,showscale=True)
+    fig.update_layout(template='plotly_dark')
+    # fig.show()
+    fig.write_image("img.jpg")
+    # a.append(fig)
     
-    # Exclude non-numeric columns from the correlation matrix
-    numeric_dataset = dataset[numer]
-    
-    # plt.figure(figsize=(10, 8))
-    # sns.heatmap(numeric_dataset.corr(), annot=True, cmap="coolwarm", fmt=".2f")
-    # plt.show()
-    
-    for x in numer:
-        # Ensure the column is numeric and replace non-numeric values with NaN
-        dataset[x] = pd.to_numeric(dataset[x], errors='coerce')
-        q75, q25 = np.percentile(dataset.loc[:, x].dropna(), [75, 25])
-        intr_qr = q75 - q25
-        max_val = q75 + (1.5 * intr_qr)
-        min_val = q25 - (1.5 * intr_qr)
-        dataset.loc[dataset[x] < min_val, x] = np.nan
-        dataset.loc[dataset[x] > max_val, x] = np.nan
-    
-    # Box plots
-    for num in numer:
-        plt.figure(figsize=(5, 5))
-        sns.boxplot(data=dataset, x=num)
-        plt.xlabel(num)
-    plt.show()
-    
-    for numeric in numer:
-        plt.subplots(1, 1, figsize=(5, 5))
-        sns.distplot(x=dataset[numeric])
-        plt.xlabel(numeric)
-        plt.title(numeric)
-    plt.show()
-    
-    return dataset
+    return data
 
 data_visualization()
